@@ -1,0 +1,53 @@
+/* SUBSET
+
+ !"#$%&'()*+,-./0123456789;:<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+
+*/
+
+/* M+ M Type-1 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+
+@font-face
+{
+font-family: 'M+ M Type-1 (basic latin) Thin';
+src: url('mplus-1m-thin-sub.eot');
+src: url('mplus-1m-thin-sub.eot?#iefix') format('embedded-opentype'),
+url('mplus-1m-thin-sub.woff') format('woff'),
+url('mplus-1m-thin-sub.ttf') format('truetype');
+}
+
+@font-face
+{
+font-family: 'M+ M Type-1 (basic latin) Light';
+src: url('mplus-1m-light-sub.eot');
+src: url('mplus-1m-light-sub.eot?#iefix') format('embedded-opentype'),
+url('mplus-1m-light-sub.woff') format('woff'),
+url('mplus-1m-light-sub.ttf') format('truetype');
+}
+
+@font-face
+{
+font-family: 'M+ M Type-1 (basic latin) Regular';
+src: url('mplus-1m-regular-sub.eot');
+src: url('mplus-1m-regular-sub.eot?#iefix') format('embedded-opentype'),
+url('mplus-1m-regular-sub.woff') format('woff'),
+url('mplus-1m-regular-sub.ttf') format('truetype');
+}
+
+@font-face
+{
+font-family: 'M+ M Type-1 (basic latin) Medium';
+src: url('mplus-1m-medium-sub.eot');
+src: url('mplus-1m-medium-sub.eot?#iefix') format('embedded-opentype'),
+url('mplus-1m-medium-sub.woff') format('woff'),
+url('mplus-1m-medium-sub.ttf') format('truetype');
+}
+
+@font-face
+{
+font-family: 'M+ M Type-1 (basic latin) Bold';
+src: url('mplus-1m-bold-sub.eot');
+src: url('mplus-1m-bold-sub.eot?#iefix') format('embedded-opentype'),
+url('mplus-1m-bold-sub.woff') format('woff'),
+url('mplus-1m-bold-sub.ttf') format('truetype');
+}
+

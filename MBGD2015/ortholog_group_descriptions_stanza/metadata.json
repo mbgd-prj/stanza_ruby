@@ -1,0 +1,29 @@
+{
+  "id": "ortholog_group_descriptions",
+  "label": "Ortholog group description",
+  "definition": "<ul><li>This stanza is based on the pre-calculated <b>MBGD</b> ortholog clustering result (such as the default ortholog dataset).</li> <li>Each <b>gene of the specified organism</b> is clustered into specific ortholog groups.</li> <li>Each ortholog group is assigned with <b>representative name and description</b>.</li> </ul>",
+  "parameter": [
+    {
+      "key": "data-stanza-cluster_id",
+      "example": "2000",
+      "description": "Ortholog group ID",
+      "required": true
+    },
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Ortholog dataset",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-02-16",
+  "updated": "2016-02-16"
+}

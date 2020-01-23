@@ -1,0 +1,184 @@
+<html>
+  <head>
+    <title>Environment Taxonomy Composition</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    {{adjust_iframe_height_script}}
+    <style>
+      <!--
+      path {
+        stroke: #000;
+        stroke-width: 1.5;
+        cursor: pointer;
+      }
+      -->
+      path {
+        stroke: #000;
+        cursor: pointer;
+      }
+      <!--
+      text {
+        font: 11px sans-serif;
+        cursor: pointer;
+      }
+      -->
+      text {
+        font: 10px sans-serif;
+        cursor: pointer;
+        font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        width: 880px;
+        margin: 0 auto;
+      }
+
+      td {
+        font: 12px sans-serif;
+        cursor: pointer;
+        font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+        margin: .5em 0;
+      }
+
+      p#intro {
+        text-align: center;
+        margin: 1em 0;
+      }
+
+      #breadcrumbs { display: none; }
+
+      .tooltip {
+        position: absolute;
+        text-align: left;
+        font: 12px sans-serif;
+        background: #FFFFFF;
+        color: #333333;
+        border: solid 1px #B4B4B4;
+        border-radius: 8px;
+        padding: 10px 10px 10px 10px;
+      }
+    </style>
+    <script type="text/javascript">
+
+function init() {
+   console.log({{taxf}});
+   d3.json('./ortholog_environment_profile/resources/tax_dis?cluster_id={{param_cluster_id}}', function(error, data) {
+   draw(data);
+   })
+}
+
+function draw(data) {
+    var h = 250;
+var w = 100;
+console.log(data);
+    var svg = d3.select("#vis")
+  	.append("svg")
+        .attr("width", w)
+        .attr("height", h)
+  	.append("g");
+
+    var envcolor = {
+	MEO_0000116:'#EDF2C5',
+	MEO_0000404:'#84CCC9',
+	MEO_0000410:'#B9C998',
+	MEO_0000411:'#F8C5AC',
+	MEO_0000414:'#D5EAD8',
+	MEO_0000418:'#C8A06C',
+	MEO_0000419:'#8FB896',
+	MEO_0000421:'#D9BA8C',
+	MEO_0000422:'#9B7B6C',
+	MEO_0000423:'#FACD89',
+	MEO_0000424:'#89BCD6',
+	MEO_0000427:'#AA965C',
+	MEO_0000635:'#F7C8CE',
+	MEO_0000036:'#7ECEF4',
+	MEO_0000066:'#B9C2BB',
+	MEO_0000405:'#9FD9F6',
+	MEO_0000406:'#C8BCB5',
+	MEO_0000407:'#F5B090',
+	MEO_0000409:'#C7BDC2',
+	MEO_0000425:'#6C9BD2',
+	MEO_0000417:'#A7BE70',
+	MEO_0000420:'#90AD66',
+	MEO_0000632:'#B9C3C9'
+    }
+
+    var tooltip = d3.select("body")
+	.append("div")
+	.style("position", "relative")
+	.style("z-index", "10")
+	.style("visibility", "hidden")
+        .style("font-size", "12px")
+	.style("font-family", "sans-serif")
+        .style("fill", "#333333");
+    var scale = d3.scale.linear()
+	.domain([0, d3.max(data, function(d){ return Number(d.count.value) })])	//正規化される値の範囲を指定(0〜val1の最大値)
+	.range([0, w-50]);
+    var barchart = svg.selectAll('rect')	//rect要素を選択
+	.data(data)	//データセットを束縛
+	.enter()	//データセットの数に対して選択された要素がいくつ足りないかチェック
+	.append('rect')	//足りない分のrect要素を追加
+	.attr({
+		x: 0,
+		y: function(d, i){ return i * 25 },			//データのインデックス数をy属性に反映
+		width: function(d){ return scale(Number(d.count.value)) },	//データの値(val1)を正規化してwidth属性に反映
+		height: 20,
+	})
+	.attr("fill", function(d) {
+		var meo=d.env.value.match(/MEO_\d+/)[0];
+		return envcolor[meo];
+		}
+	);
+
+      svg.selectAll("text.count")
+                    .data(data)
+                    .enter()
+                    .append("text")
+                    .text(function(d) {
+                            return d.count.value;
+                        })
+                    .attr("text-anchor", "middle")
+                    .attr("y", function(d,i) {
+                            //return (i+1) * (barw+barPadding) - (barw-barPadding)/2;
+                            return (i+1)*25-10
+                        })
+                    .attr("x", function() {
+                            return 10 ;
+                        })
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "10px")
+                    .attr("fill", "#ffffff");
+
+         svg.selectAll("text.name")
+                    .data(data)
+                    .enter()
+                    .append("text")
+                    .text(function(d) {
+                            return d.env_label.value;
+                        })
+                    .attr("text-anchor", "middle")
+                    .attr("y", function(d,i) {
+                            return (i+1)*25-10
+                            //return (i+1) * (barw+barPadding) - (barw-barPadding)/2;
+                        })
+                    .attr("x", function() {
+                            return 25;
+                        })
+                    .attr("text-anchor", "start")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "10px")
+                    .attr("fill", "#333");
+
+}
+</script>
+  </head>
+  <body onload="init();">
+    <div id="vis"></div>
+  </body>
+</html>
+

@@ -1,0 +1,29 @@
+{
+  "id": "gene_content_comparison_between_taxa_with_positions",
+  "label": "",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Ortholog dataset",
+      "required": true
+    },
+    {
+      "key": "data-stanza-tax_id",
+      "example": "543,186817",
+      "description": "Two taxonomy IDs separated by comma",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "author name",
+  "address": "name@example.org",
+  "contributor": [],
+  "created": "2016-10-07",
+  "updated": "2016-10-07"
+}

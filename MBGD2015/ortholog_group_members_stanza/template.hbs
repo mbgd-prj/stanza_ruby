@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>OrthologGroupMembers</title>
+    <link rel="stylesheet" href="/stanza/assets/stanza.css">
+    <link rel="stylesheet" href="/stanza/assets/ortholog_group_members/member.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    function init() {
+	var phy_color = [
+	   '#FDEFF2', '#E4D2D8', '#F8F4E6', '#FFF1CF', '#EBE1A9', '#F2F2b0', '#E0EBAF', '#C7DC68', '#C5C56A', '#A6C8B2', '#D6E9CA',
+	   '#BADCAD', '#CEE4AE', '#BED3CA', '#EAEDF7', '#C1E4E9', '#ABCED8', '#DBD0E6', '#C0A2C7', '#EAE5E3', '#DCDDDD', '#E7E7EB',
+	   '#D3CCD6', '#E6EAE3', '#D3CBC6'];
+        adjust_iframe_height(600);
+	$.ajax({
+	   url:'/stanza/ortholog_group_members/resources/features?cluster_id={{cluster_id}}&dataset={{dataset}}',
+	   error:function() {
+	      $('#here').append('Sparql Error');
+	   },
+	   success:function(_data) {
+	   //console.log(_data);
+	   if (!_data['features'][0]['Archaea'] && !_data['features'][0]['Bacteria']) {
+	      $('#here').append('No hits found');
+	   } else {
+           $('#here').append('<table border="1" id="main_table">');
+	   $('#main_table').append('<tr bgcolor="#eee"><th>Superkingdom</th><th>Phylum</th><th>Organism name</th><th>Ortholog group members</th><th>Gene description</th></tr>');
+	   var countset = _data['features'][0];
+	   var data  = _data['features'];
+	   var i = 0; var j = 0; var k = 0; l = 0;
+	   var id = ''; var id2 = ''; var id3 = ''; var forid = ''; forid2 = '';
+	   //console.log(countset);
+	   for(var key in countset) { //superkingdom
+		var cssid = '_'+key;
+		$('#main_table').append('<tr id="'+key+'" ><td rowspan='+countset[key]['count']+' id="'+cssid+'">'+key+'</td>');
+		for(var key2 in countset[key]) { //phylum
+	           if (key2 == 'count') {continue;}
+		   if (i == 0) {
+		   	$('#'+key).append('<td rowspan='+countset[key][key2]['count']+' bgcolor="'+phy_color[l]+'">'+key2+'</td>');
+		   } else {
+			//forid = String(key2.match(/^\S+/));
+			forid = String(key2).replace(/[\(\)\.\:\s\;\/\=\-]/g,'');
+		   	$('#main_table').append('<tr id="'+forid+'"><td rowspan='+countset[key][key2]['count']+' bgcolor="'+phy_color[l]+'">'+key2+'</td>');
+			j = 0;
+		   }
+		   i++; l = (l>23) ? 0 : l+1; //console.log(l); 
+		   for(var key3 in countset[key][key2]) { //organism
+	              if (key3 == 'count') {continue;}
+		      if (j == 0) {
+			id2 = (i==1) ? key : forid;
+		        $('#'+id2).append('<td rowspan='+countset[key][key2][key3]['count']+'>'+key3+'</td>');
+		      } else {
+			forid2 = String(key3).replace(/[\(\)\.\:\s\;\/\=\-]/g,'');
+		        $('#main_table').append('<tr id="'+forid2+'"><td rowspan='+countset[key][key2][key3]['count']+'>'+key3+'</td>');
+			k = 0;
+		      }
+		      j++; 
+		      for(var key4 in countset[key][key2][key3]) { //domain&gene
+	                 if (key4 == 'count') {continue;}
+                         if (k == 0) {
+			    id3 = (j==1) ? key : forid2;
+			    if (i>1 && j==1) { id3 = forid; };
+	//console.log(key4, forid2, j, id3);
+                            $('#'+id3).append('<td>'+key4+'</td>');
+                            $('#'+id3).append('<td>'+countset[key][key2][key3][key4]+'</td>');
+                         } else {
+			   var forid3 = String(key4).replace(/[\(\)\.\:\s\;\/\=\-]/g,'');
+			   //var forid3 = String(key4.match(/^\S+/)).replace(/[\.\(\)\:]/g,'')
+			    //var forid4 = forid3.replace(/\./g,'');
+	//console.log(forid3);
+                            $('#main_table').append('<tr id="'+forid3+'"><td>'+key4+'</td>');
+                            $('#'+forid3).append('<td>'+countset[key][key2][key3][key4]+'</td>');
+                         }
+			 k++;
+		      }
+		      k = 0;
+		   }
+		   j=0;
+		}
+	        i=0;
+            }	
+            }	    
+           }
+         });
+    }
+    function adjust_iframe_height(height_px) {
+      var height = 0;
+      //var name = parent.document.getElementsByTagName('iframe')[0].id;
+      //console.log(name);
+      if(height_px) {
+        height = height_px;
+      } else {
+        height = document.body.offsetHeight + 500;
+        //height = document.body.offsetHeight - 15;
+      }
+      parent.postMessage(JSON.stringify({height: height, id: name}), "*");
+    }
+    </script>
+
+   <!-- {{adjust_iframe_height_script}}-->
+  </head>
+
+  <body onload="init()">
+   <!--     <caption height=>{{title}}</caption> -->
+        <div id="here"></div>
+  </body>
+</html>

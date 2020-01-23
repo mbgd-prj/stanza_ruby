@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Ortholog Size Nano</title>
+    <link rel="stylesheet" href="/stanza/assets/stanza.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    var frame_height = 290;
+    function init() {
+     // if(tax_id) {
+        //adjust_iframe_height(frame_height);
+        adjust_iframe_height();
+       // $("#jbrowse").css("height", (frame_height - 30) + "px");
+       // $("#jbrowse").css("border-radius", "4px");
+       // $("#jbrowse").css("box-shadow", "0 2px 2px rgba(0,0,0,0.2)");
+       // $("#jbrowse-frame").css("height", (frame_height - 30) + "px");
+      //} else {
+       // $("#jbrowse").text("No data");
+        //adjust_iframe_height();
+      //}
+    }
+    function adjust_iframe_height(height_px) {
+      var height = 0;
+      //var name = parent.document.getElementsByTagName('iframe')[0].id;
+      console.log(name);
+      if(height_px) {
+        height = height_px;
+      } else {
+        //height = document.body.offsetHeight + 500;
+        height = document.body.offsetHeight - 15;
+      }
+      parent.postMessage(JSON.stringify({height: height, id: name}), "*");
+    }
+    </script>
+
+   <!-- {{adjust_iframe_height_script}}-->
+  </head>
+
+  <body onload="init()">
+     <table class="table">
+   <!--     <caption height=>{{title}}</caption> -->
+        <tbody>
+            <tr>
+              <th class="span1">Functional category</th>
+              <th class="span2">Description</th>
+              <th class="span1">Member count</th>
+            </tr>
+           {{#each features}}
+            <tr>
+              <td class="span1" bgcolor="{{color}}">
+                 {{function}}
+              </td>
+              <td class="span2">
+                 {{label}}
+              </td>
+              <td class="span1">
+		{{counts}}
+              </td>
+	     </tr>
+         {{/each}}
+        </tbody>
+      </table>
+  </body>
+</html>

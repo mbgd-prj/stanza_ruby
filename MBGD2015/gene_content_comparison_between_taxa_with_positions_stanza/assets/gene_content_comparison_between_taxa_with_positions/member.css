@@ -1,0 +1,26 @@
+#main_table {
+   border: 1px #ccc solid;
+   font-size: 80%
+}
+th {
+        text-align: left;
+        padding: 3px;
+        background-color: #ccc;
+}
+td {
+        padding: 3px;
+}
+.header {
+        height: auto;
+}
+.headerSortUp {
+        background-image: url(asc.png);
+        background-repeat: no-repeat;
+}
+.headerSortDown {
+        background-image: url(desc.png);
+        background-repeat: no-repeat;
+}
+
+
+

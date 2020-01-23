@@ -1,0 +1,29 @@
+{
+  "id": "taxon_to_specific_genes_with_positions",
+  "label": "",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-tax_id",
+      "example": "1117",
+      "description": "Taxonomy ID",
+      "required": true
+    },
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Dataset",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "author name",
+  "address": "name@example.org",
+  "contributor": [],
+  "created": "2016-10-07",
+  "updated": "2016-10-07"
+}

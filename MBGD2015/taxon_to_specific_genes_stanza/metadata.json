@@ -1,0 +1,23 @@
+{
+  "id": "taxon_to_specific_genes",
+  "label": "Taxon-specific genes",
+  "definition": "<ul> <li> This stanza is based on the <b>MBGD</b> ortholog clustering for the default organism set. </li> <li>The <b>gene presence/absence</b> pattern is examined for each ortholog group. </li><li>The listed genes in this stanza mostly exist in the <b>specified taxon</b> (>=80% of the evaluated organisms) while not in <b>other taxa</b> (<=20% of the evaluated organisms).</li> </ul>",
+  "parameter": [
+    {
+      "key": "data-stanza-tax_id",
+      "example": "543",
+      "description": "Taxonomy ID",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-02-16",
+  "updated": "2016-02-16"
+}

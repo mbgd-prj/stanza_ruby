@@ -1,0 +1,13 @@
+#main_table {
+   border: 1px #ccc solid;
+   font-size: 80%
+}
+#_Archaea {
+    background-color: #F6BFBC;
+}
+#_Eukaryota{
+    background-color: #84B9CB;
+}
+#_Bacteria{
+    background-color: #AACF53;
+}

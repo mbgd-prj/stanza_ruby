@@ -1,0 +1,23 @@
+{
+  "id": "taxid_to_genes_in_clusters",
+  "label": "Genes and orthologs",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-tax_id",
+      "example": "1148",
+      "description": "Taxonomy ID",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "author name",
+  "address": "name@example.org",
+  "contributor": [],
+  "created": "2016-09-08",
+  "updated": "2016-09-08"
+}

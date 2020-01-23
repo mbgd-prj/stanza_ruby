@@ -1,0 +1,29 @@
+{
+  "id": "ortholog_group_members_in_environments",
+  "label": "Source environments of genomes with the orthologs",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-cluster_id",
+      "example": "2841",
+      "description": "Ortholog group ID",
+      "required": true
+    },
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Ortholog dataset",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "MBGD",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nib.ac.jp",
+  "contributor": [],
+  "created": "2016-02-16",
+  "updated": "2016-02-16"
+}

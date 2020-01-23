@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Ortholog Specific Genes</title>
+    <link rel="stylesheet" href="/stanza/assets/stanza.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    var frame_height = 290;
+    function init() {
+        adjust_iframe_height();
+    }
+    function adjust_iframe_height(height_px) {
+      var height = 0;
+      //var name = parent.document.getElementsByTagName('iframe')[0].id;
+      //console.log(name);
+      if(height_px) {
+        height = height_px;
+      } else {
+        //height = document.body.offsetHeight + 500;
+        height = document.body.offsetHeight - 15;
+      }
+      parent.postMessage(JSON.stringify({height: height, id: name}), "*");
+    }
+    </script>
+
+   <!-- {{adjust_iframe_height_script}}-->
+  </head>
+
+  <body onload="init()">
+     {{#if features}}
+     <table class="table-sm table-bordered stanza-table">
+        <tbody>
+            <tr bgcolor="#ccc">
+              <th class="span1">OrthologID</th>
+	      <th class="span1">Name</th>
+              <th class="span3">Description</th>
+              <th class="span1">Ratio1</th>
+              <th class="span1">Ratio2</th>
+	    </tr>
+        {{#each features}}
+             <tr>
+              <td class="span1">
+	      {{group}}
+              </td>
+              <td class="span1">
+                 {{label}}
+              </td>
+              <td class="span3">
+                 {{description}}
+              </td>
+              <td class="span1">
+                 {{ratio}}
+              </td>
+              <td class="span1">
+                 {{ratio2}}
+              </td>
+            </tr>
+         {{/each}}
+        </tbody>
+      </table>
+      {{else}}
+      No items found
+      <script type="text/javascript">
+        <!--
+          var message = JSON.stringify({"height": "80px", "stanza_name": "gene_content_comparison_between_taxa"});
+          parent.postMessage(message, "*");
+        // -->
+      </script>
+    {{/if}}
+
+  </body>
+</html>

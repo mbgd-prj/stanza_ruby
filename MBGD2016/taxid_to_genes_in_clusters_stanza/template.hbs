@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Taxid To Genes In Clusters</title>
+    <link rel="stylesheet" href="/stanza/assets/stanza.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    var frame_height = 290;
+    function init() {
+	var phy_color = [
+	   '#FDEFF2', '#E4D2D8', '#F8F4E6', '#FFF1CF', '#EBE1A9', '#F2F2b0', '#E0EBAF', '#C7DC68', '#C5C56A', '#A6C8B2', '#D6E9CA',
+	   '#BADCAD', '#CEE4AE', '#BED3CA', '#EAEDF7', '#C1E4E9', '#ABCED8', '#DBD0E6', '#C0A2C7', '#EAE5E3', '#DCDDDD', '#E7E7EB',
+	   '#D3CCD6', '#E6EAE3', '#D3CBC6'];
+        adjust_iframe_height(600);
+	$.ajax({
+	   url:'/stanza/taxid_to_genes_in_clusters/resources/features?tax_id={{tax_id}}',
+	   success:function(_data) {
+	   console.log(_data);
+           $('#here').append('<table border="1" id="main_table">');
+	   $('#main_table').append('<tr bgcolor="#eee"><th>Gene</th><th>Gene Name</th><th>OrthologID</th><th>Ortholog description</th></tr>');
+	   var data  = _data['features'];
+           for(var i = 0; i< data.length; i++) { 
+             $('#main_table').append('<tr id='+i+'><td><a href="http://mbgd.genome.ad.jp/htbin/MBGD_gene_info_frame.pl?name='+data[i]['gene_id']+'" TARGET="_blank">'+data[i]['gene_id']+'</a></td>\
+		<td>'+data[i]['gene_name']+'</td>\
+		<td bgcolor="'+data[i]['color']+'">'+data[i]['cluster_id']+'</td>\
+		<td>'+data[i]['cluster_descr']+'</td></tr>');
+            }	    
+    }
+    });
+    }
+    function adjust_iframe_height(height_px) {
+      var height = 0;
+      //var name = parent.document.getElementsByTagName('iframe')[0].id;
+      //console.log(name);
+      if(height_px) {
+        height = height_px;
+      } else {
+        height = document.body.offsetHeight + 500;
+        //height = document.body.offsetHeight - 15;
+      }
+      parent.postMessage(JSON.stringify({height: height, id: name}), "*");
+    }
+    </script>
+
+   <!-- {{adjust_iframe_height_script}}-->
+  </head>
+
+  <body onload="init()">
+   <!--     <caption height=>{{title}}</caption> -->
+        <div id="here"></div>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>Environment Taxonomy Composition</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+    {{adjust_iframe_height_script}}
+    <style type="text/css">
+     path {
+       stroke: #000;
+       cursor: pointer;
+     }
+     body {
+       width: 880px;
+       margin: 0 auto;
+     }
+
+     span#tooltip{
+       position: absolute;
+       top: 10px;
+       z-index: 10;
+       visibility: hidden;
+       padding: 10 10px;
+       border: 1px solid #666;
+       border-radius: 3px;
+       background-color: #fff;
+       color: #333;
+       font-size: 11px;
+       opacity: 0.9;
+    }
+    </style>
+    <script type="text/javascript">
+
+   function init() {
+       d3.json('./ortholog_group_members_in_phenotypes/resources/tax_dis?cluster_id={{param_cluster_id}}&dataset={{param_dataset}}', function(error, data) {
+//  console.log(data.tax_dis);
+	if (data.tax_dis.length === 0) {
+	  $('#vis').append('No hits found');
+ 	} else {	
+          draw(data.tax_dis);
+	}
+       })
+   }
+
+function draw(data) {
+   var h = 250;
+   var w = 800;
+   //console.log(data);
+   var tooltip = d3.select("body").select("#tooltip")
+   var svg = d3.select("#vis")
+  	.append("svg")
+        .attr("width", w)
+        .attr("height", h)
+  	.append("g");
+
+    var scale = d3.scale.linear()
+	.domain([0, d3.max(data, function(d){ return Number(d.count) })])
+	.range([0, w-300]);
+    var barchart = svg.selectAll('rect')
+	.data(data)
+	.enter()
+	.append('rect')
+	.attr({
+		x: 180,
+		y: function(d, i){ return i * 22 + 20 },
+		width: function(d){ return scale(Number(d.count)) },
+		height: 20,
+	})
+	.attr("fill", function(d, i) {
+	      var col = ((i % 2) != 0) ? 'rgb(202,209,151)' : 'rgb(167,179,129)';
+	//	var mpo=d.mpo.match(/MPO_\d+/);
+	//return mpocolor[mpo];
+              return col;
+		}
+	)
+       .on("mouseover", function(d){return tooltip.style("visibility", "visible").text(d.count);})
+       .on("mousemove", function(d){return tooltip.style("top", (event.pageY)+"px").style("left",(event.pageX+10)+"px");})
+       .on("mouseout", function(d){return tooltip.style("visibility", "hidden");});
+
+       svg.selectAll("text.name")
+                    .data(data)
+                    .enter()
+		    .append("a")
+		    .attr("target", "_parent")
+     		    .attr("xlink:href", function (d) { var esc = escape(d.mpo_label);
+			 var mpo=d.mpo.match(/MPO_\d+/);
+	                 //return "https://biointegra.jp/MDBdemo/search/?q1="+esc+"&q1_cat=phenotype&q1_param_mpo_id="+mpo; })
+	                 return "/search/?q1="+esc+"&q1_cat=phenotype&q1_param_mpo_id="+mpo; })
+                    .append("text")
+                    .text(function(d) {
+                            return d.mpo_label;
+                        })
+                    .attr("text-anchor", "end")
+                    .attr("y", function(d,i) {
+                            return (i+1)*22+10
+                            //return (i+1) * (barw+barPadding) - (barw-barPadding)/2;
+                        })
+                    .attr("x", function() {
+                            return 170;
+                        })
+                    .attr("fill", "#0096db")
+		    .attr("font-family", "sans-serif")
+	 	    .attr("font-size", "12px")
+                    .attr("font-weight", "bold");
+
+}
+</script>
+  </head>
+  <body onload="init();">
+    <span id="tooltip"></span>
+    <div id="vis"></div>
+  </body>
+</html>

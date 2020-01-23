@@ -1,0 +1,23 @@
+{
+  "id": "organism_to_gene_functions",
+  "label": "Gene functions",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-org_code",
+      "example": "syn",
+      "description": "Organism code",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "nibb",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-08-30",
+  "updated": "2016-08-30"
+}

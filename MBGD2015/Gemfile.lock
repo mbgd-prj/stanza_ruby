@@ -1,0 +1,228 @@
+PATH
+  remote: gene_content_comparison_between_taxa_stanza
+  specs:
+    gene_content_comparison_between_taxa_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: gene_content_comparison_between_taxa_with_functions_stanza
+  specs:
+    gene_content_comparison_between_taxa_with_functions_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: gene_content_comparison_between_taxa_with_positions_stanza
+  specs:
+    gene_content_comparison_between_taxa_with_positions_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: organism_to_gene_functions_stanza
+  specs:
+    organism_to_gene_functions_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: organism_to_genes_in_clusters_stanza
+  specs:
+    organism_to_genes_in_clusters_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_descriptions_stanza
+  specs:
+    ortholog_group_descriptions_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_members_in_environments_stanza
+  specs:
+    ortholog_group_members_in_environments_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_members_in_fixed_taxonomy_sunburst_stanza
+  specs:
+    ortholog_group_members_in_fixed_taxonomy_sunburst_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_members_in_fixed_taxonomy_tree_stanza
+  specs:
+    ortholog_group_members_in_fixed_taxonomy_tree_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_members_in_phenotypes_old_stanza
+  specs:
+    ortholog_group_members_in_phenotypes_old_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_members_in_phenotypes_stanza
+  specs:
+    ortholog_group_members_in_phenotypes_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_members_in_taxonomy_sunburst_stanza
+  specs:
+    ortholog_group_members_in_taxonomy_sunburst_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_members_in_tree_stanza
+  specs:
+    ortholog_group_members_in_tree_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_group_members_stanza
+  specs:
+    ortholog_group_members_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ortholog_metagenome_profile_stanza
+  specs:
+    ortholog_metagenome_profile_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: taxid_to_gene_functions_stanza
+  specs:
+    taxid_to_gene_functions_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: taxid_to_genes_in_clusters_stanza
+  specs:
+    taxid_to_genes_in_clusters_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: taxon_to_specific_genes_in_dataset_stanza
+  specs:
+    taxon_to_specific_genes_in_dataset_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: taxon_to_specific_genes_stanza
+  specs:
+    taxon_to_specific_genes_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: taxon_to_specific_genes_with_positions_stanza
+  specs:
+    taxon_to_specific_genes_with_positions_stanza (0.0.1)
+      togostanza
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (4.2.7.1)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
+    backports (3.6.8)
+    concurrent-ruby (1.0.2)
+    ffi (1.9.14)
+    flavour_saver (0.3.8)
+      rltk (~> 2.2.0)
+      tilt
+    haml (4.0.7)
+      tilt
+    hamster (3.0.0)
+      concurrent-ruby (~> 1.0)
+    hashie (3.4.6)
+    i18n (0.7.0)
+    json (1.8.6)
+    kgio (2.10.0)
+    link_header (0.0.8)
+    minitest (5.9.1)
+    multi_json (1.12.1)
+    net-http-persistent (2.9.4)
+    parallel (1.9.0)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    raindrops (0.17.0)
+    rdf (2.1.0)
+      hamster (~> 3.0)
+      link_header (~> 0.0, >= 0.0.8)
+    rltk (2.2.1)
+      ffi (>= 1.0.0)
+    sinatra (1.4.7)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    sinatra-contrib (1.4.7)
+      backports (>= 2.0)
+      multi_json
+      rack-protection
+      rack-test
+      sinatra (~> 1.4.0)
+      tilt (>= 1.3, < 3)
+    sparql-client (1.99.1)
+      json (~> 1.8)
+      net-http-persistent (~> 2.9)
+      rdf (>= 1.99, < 3)
+      tins (= 1.6.0)
+    sprockets (3.7.0)
+      concurrent-ruby (~> 1.0)
+      rack (> 1, < 3)
+    thor (0.19.1)
+    thread_safe (0.3.5)
+    tilt (2.0.5)
+    tins (1.6.0)
+    togostanza (2.1.1)
+      activesupport (~> 4.2)
+      flavour_saver (~> 0.3)
+      haml (~> 4.0)
+      hashie (~> 3.4)
+      parallel (~> 1.6)
+      sinatra (~> 1.4)
+      sinatra-contrib (~> 1.4)
+      sparql-client (~> 1.1)
+      sprockets (~> 3.4)
+      thor (~> 0.19)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    unicorn (5.1.0)
+      kgio (~> 2.6)
+      raindrops (~> 0.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  gene_content_comparison_between_taxa_stanza!
+  gene_content_comparison_between_taxa_with_functions_stanza!
+  gene_content_comparison_between_taxa_with_positions_stanza!
+  organism_to_gene_functions_stanza!
+  organism_to_genes_in_clusters_stanza!
+  ortholog_group_descriptions_stanza!
+  ortholog_group_members_in_environments_stanza!
+  ortholog_group_members_in_fixed_taxonomy_sunburst_stanza!
+  ortholog_group_members_in_fixed_taxonomy_tree_stanza!
+  ortholog_group_members_in_phenotypes_old_stanza!
+  ortholog_group_members_in_phenotypes_stanza!
+  ortholog_group_members_in_taxonomy_sunburst_stanza!
+  ortholog_group_members_in_tree_stanza!
+  ortholog_group_members_stanza!
+  ortholog_metagenome_profile_stanza!
+  taxid_to_gene_functions_stanza!
+  taxid_to_genes_in_clusters_stanza!
+  taxon_to_specific_genes_in_dataset_stanza!
+  taxon_to_specific_genes_stanza!
+  taxon_to_specific_genes_with_positions_stanza!
+  togostanza
+  unicorn
+
+BUNDLED WITH
+   1.16.2

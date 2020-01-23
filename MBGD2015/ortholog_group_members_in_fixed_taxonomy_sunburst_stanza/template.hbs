@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Ortholog taxonomy profile</title>
+<!--<link rel="stylesheet" href="{{css_uri}}" />-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<link rel="stylesheet" href="http://bias4.nibb.ac.jp:8100/stanza/assets/ortholog_group_members_in_fixed_taxonomy_sunburst/mp.css">
+<!--    {{adjust_iframe_height_script}} -->
+<style>
+     <!--
+      path {
+        stroke: #000;
+        stroke-width: 1.5;
+        cursor: pointer;
+      }
+      -->
+      path {
+        stroke: #000;
+        cursor: pointer;
+      }
+      text {
+        font-size: 8px;
+        font-family:"arial narrow";
+      }
+
+      body {
+        width: 880px;
+        margin: 0 auto;
+      }
+
+      td {
+        font: 12px sans-serif;
+        cursor: pointer;
+        font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+        margin: .5em 0;
+      }
+
+      p#intro {
+        text-align: center;
+        margin: 1em 0;
+      }
+      
+      #breadcrumbs { display: none; }
+      
+      .tooltip {
+        position: absolute;
+        text-align: left;
+        font: 12px sans-serif;
+        background: #FFFFFF;
+        color: #333333;
+        border: solid 1px #B4B4B4;
+        border-radius: 8px;
+        padding: 10px 10px 10px 10px;
+      }
+</style>
+<script type="text/javascript">
+  function draw(_id,_fileName,_dataset,_opts,_rootName,_tips,_width) {
+   // Coffee Flavour Wheel by Jason Davies,
+   // http://www.jasondavies.com/coffee-wheel/
+   // License: http://www.jasondavies.com/coffee-wheel/LICENSE.txt
+  var width = _width,
+     height = width,
+     radius = width / 2,
+     x = d3.scale.linear().range([0, 2 * Math.PI]),
+     y = d3.scale.pow().exponent(1.2).domain([0, 1]).range([0, radius]),
+     i = 0;
+     padding = 5,
+     duration = 800;
+   var userAgent = window.navigator.userAgent.toLowerCase();
+   var color = d3.scale.category20c();
+   var div = d3.select("#" + _id);
+   var vis = div.append("svg")
+        .attr("width", width + padding * 2)
+        .attr("height", height + padding * 2)
+        .append("g")
+        .attr("transform", "translate(" + [radius + padding, radius + padding] + ")");
+  
+   div.append("tooltip")
+        .attr("id","tooltip");
+        //div.append("p")
+        //    .attr("id", "intro")
+        //    .text("Click to zoom!");
+
+   var partition = d3.layout.partition()
+        .sort(null)
+        //.value(function(d) { return 5.8 - d.depth; });
+        .value(function(d) { return (d.size?d.size:1); });
+
+   var arc = d3.svg.arc()
+        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+        .innerRadius(function(d) { return Math.max(0, d.y ? y(d.y) : d.y); })
+        .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+        
+   d3.json(_fileName, function(jsonfile) {
+       console.log(jsonfile.features);
+       var json = sparql2tree(jsonfile.features, _opts,_rootName);
+       console.log(json);
+            
+       var nodes = partition.nodes(json);
+       var path = vis.selectAll("path").data(nodes);
+       path.enter().append("path")
+         //  .attr("id", function(d, i) { return "path-" + i; })
+         .attr("id", function (d) { return d.name; })
+         .attr("d", arc)
+         .attr("fill-rule", "evenodd")
+         .attr("class", "area")
+         .style("fill", function(d) { 
+	     if (d.cnt == 0) {return '#fff';} 
+	     else {
+	         return d ? color(d.name) : null; 
+	     }
+         })
+         .on("click", click);
+
+        var text = vis.selectAll("text").data(nodes);
+        var textEnter = text.enter().append("text")
+              //.style("fill-opacity", 1)
+              //.style("fill", function(d) {
+              //  return brightness(d3.rgb(colour(d))) < 125 ? "#DDD" : "#000";
+              //})
+          .attr("text-anchor", function(d) {
+              return x(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+           })
+          .attr("dy", ".2em")
+          .attr("class", "text")
+          .attr("transform", function(d) {
+              var multiline = (d.name || "").split(" ").length > 1,
+                   angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90,
+                   rotate = angle + (multiline ? -.5 : 0);
+               return "rotate(" + rotate + ")translate(" + (y(d.y) + padding) + ")rotate(" + (angle > 90 ? -180 : 0) + ")";
+           })
+           .on("click", click)
+           .style("visibility", function (d) { // If range of area is narrow(less than 8), text is not displayed
+               var sAngle = Math.max(0, Math.min(2 * Math.PI, x(d.x)));
+               var eAngle = Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx)));
+               var inRad = Math.max(0, y(d.y));
+	       if (d.depth == 0) {
+		  return "visible";
+               } else if (Math.abs(eAngle - sAngle) * inRad >= 9) {
+                  return "visible";
+               } else {
+                  return "hidden";
+               }
+           });
+
+       textEnter.append("tspan")
+          .attr("x", function (d) { return d.depth ? 0 : -20; })
+          //.text(function(d) { return d.depth ? d.name.split(" ")[0] : ""; });
+ 	  .text(function(d) {return d.name.substring(0,11);});
+ 	  //.text(function(d) { return d.depth ? d.name.substring(0,8) : "Cellular"; });
+     
+       textEnter.append("tspan")
+          .attr("x", function (d) { return d.depth ? 0 : -20; })
+          .attr("dy", "1em")
+          .text(function(d) { return d.name.substring(11,22); });
+
+       textEnter.append("tspan")
+	  .attr("x", 0)
+          .attr("dy", "1.1em")
+          .text(function(d) { return d.name.substring(22,40); });
+
+       function click(d) {
+          //console.log(d);
+          path.transition()
+           .duration(duration)
+           .attrTween("d", arcTween(d));
+
+            // Somewhat of a hack as we rely on arcTween updating the scales.
+          text.style("visibility", function(e) {
+                return isParentOf(d, e) ? null : d3.select(this).style("visibility");
+           })
+            .transition()
+            .duration(duration)
+            .attrTween("text-anchor", function(d) {
+                return function() {
+                   return x(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+                };
+            })
+            .attrTween("transform", function(d) {
+                var multiline = (d.name || "").split(" ").length > 1;
+                return function() {
+                   var angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90,
+                        rotate = angle + (multiline ? -.5 : 0);
+                   return "rotate(" + rotate + ")translate(" + (y(d.y) + padding) + ")rotate(" + (angle > 90 ? -180 : 0) + ")";
+                };
+            })
+            .style("fill-opacity", function(e) { return isParentOf(d, e) ? 1 : 1e-6; })
+             //.each("end", function(e) {
+             //  d3.select(this).style("visibility", isParentOf(d, e) ? null : "hidden");
+            .each("end", function (e) { // If range of area is narrow(less than 8), text is not displayed
+                var sAngle = Math.max(0, Math.min(2 * Math.PI, x(e.x)));
+                var eAngle = Math.max(0, Math.min(2 * Math.PI, x(e.x + e.dx)));
+                var inRad = Math.max(0, y(e.y));
+                if (Math.abs(eAngle - sAngle) * inRad >= 8) {
+                    d3.select(this).style("visibility", "visible");
+                } else {
+                    d3.select(this).style("visibility", "hidden");
+                }        
+            });
+       } //end clickd
+          
+       function add_tooltips_event() {
+              var tooltips = d3.select(".tooltip");
+              if (tooltips) {
+                tooltips = d3.select("#tooltip").append("table").attr("class", "tooltip").style("visibility", "hidden");
+              }
+              d3.selectAll(".area")
+                .on("mousemove", function (d) {
+                //console.log("attach");
+                tooltips.transition().duration(200).style("opacity", 1.0);
+                if (userAgent.indexOf("msie") == -1) {
+                  tooltips.html(function () {
+                    var tooltiptext = "";
+                    for (var key in _tips) {
+                      tooltiptext += ("<tr><td valign=\"top\">" + key + "</td><td valign=\"top\">:</td><td valign=\"top\">" + (d[key]?d[key]:"") + "</td></tr>");
+                    }
+                    return tooltiptext;
+                  })
+                } else {
+                  tooltips.text(function () {
+                    var tooltiptext = "";
+                    for (var key in _tips) {
+                      tooltiptext += key + ":" + (d[key]?d[key]:"") + "";
+                    }
+                    if (tooltiptext.length > 0) {
+                      tooltiptext = tooltiptext.slice(0, -2);
+                    }
+                    return tooltiptext;
+                  })
+                }
+                tooltips
+                  .style("left", (d3.event.pageX + 15) + "px")
+                  .style("top", (d3.event.pageY - 50) + "px")
+                  .style("visibility", "visible");
+              })
+                .on("mouseout", function (d) {
+                tooltips.transition().duration(200).style("visibility", "hidden");
+              });
+              d3.selectAll(".text")
+                .on("mousemove", function (d) {
+                //console.log("attach");
+                tooltips.transition().duration(200).style("opacity", 1.0);
+                if (userAgent.indexOf("msie") == -1) {
+                  tooltips.html(function () {
+                    var tooltiptext = "";
+                    for (var key in _tips) {
+                      tooltiptext += ("<tr><td valign=\"top\">" + key + "</td><td valign=\"top\">:</td><td valign=\"top\">" + (d[key]?d[key]:"") + "</td></tr>");
+                    }
+                    return tooltiptext;
+                  })
+                } else {
+                  tooltips.text(function () {
+                    var tooltiptext = "";
+                    for (var key in _tips) {
+                      tooltiptext += key + ":" + (d[key]?d[key]:"") + "";
+                    }
+                    if (tooltiptext.length > 0) {
+                      tooltiptext = tooltiptext.slice(0, -2);
+                    }
+                    return tooltiptext;
+                  })
+                }
+                tooltips
+                  .style("left", (d3.event.pageX + 15) + "px")
+                  .style("top", (d3.event.pageY - 50) + "px")
+                  .style("visibility", "visible");
+              })
+                .on("mouseout", function (d) {
+                tooltips.transition().duration(200).style("visibility", "hidden");
+              });
+        }  //end add_tooltip_event
+          add_tooltips_event();
+        });  //end_d3.json
+
+        // Interpolate the scales!
+      function arcTween(d) {
+          var my = maxY(d),
+              xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+              yd = d3.interpolate(y.domain(), [d.y, my]),
+              yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
+          return function(d) {
+            return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
+          };
+      }
+    } //end_draw
+
+      function isParentOf(p, c) {
+        if (p === c) return true;
+        if (p.children) {
+          return p.children.some(function(d) {
+            return isParentOf(d, c);
+          });
+        }
+        return false;
+      }
+
+      function colour(d) {
+        if (d.children) {
+          // There is a maximum of two children!
+          var colours = d.children.map(colour),
+              a = d3.hsl(colours[0]),
+              b = d3.hsl(colours[1]);
+          // L*a*b* might be better here...
+          return d3.hsl((a.h + b.h) / 2, a.s * 1.2, a.l / 1.2);
+        }
+        return d3.scale.category20c() || "#fff";
+      }
+
+      function maxY(d) {
+        return d.children ? Math.max.apply(Math, d.children.map(maxY)) : d.y + d.dy;
+      }
+
+      // http://www.w3.org/WAI/ER/WD-AERT/#color-contrast
+      function brightness(rgb) {
+        return rgb.r * .299 + rgb.g * .587 + rgb.b * .114;
+      }
+
+   function sparql2tree(data, opts, root) {
+      var tree = d3.map();
+      var component = new Array();
+      var parent = blanch = true;
+      for (var data_i = 0; data_i < data.length; data_i++) {
+         var blanch = {};
+         parent = (data[data_i][opts.parent]?data[data_i][opts.parent]:root);
+if (data[data_i]['tax_label'] == 'Cellular_organism') { 
+console.log(data[data_i]['rank'], data[data_i]['cnt']);
+}
+          
+         for (var key in opts) {
+            blanch[key] = data[data_i][opts[key]];
+         }
+         if (tree.has(parent)) {
+            component = tree.get(parent);
+         } else {
+            component = new Array();
+         }
+         component.push(blanch);
+         tree.set(parent, component);
+      }
+      function traverse(nodes) {
+          var hash = new Array();
+          if (nodes) {
+            if (nodes.length > 1) {
+              for (var index = 0 ; index < nodes.length ; index++) {
+                var node = nodes[index];
+                var result = {};
+                for (var key in node) {
+                  if (key != 'children') {
+                    result[key] = node[key];
+                  } else {
+                    if (tree.get(node[key])) {
+                      //console.log(key);
+                      //console.log(node[key]);
+                      //console.log(tree.get(node[key]));
+                      result['size'] = tree.get(node[key]).length;
+                      result[key] = traverse(tree.get(node[key]));
+                    }
+                  }
+                }
+                hash.push(result);
+              }
+            } else if (nodes.length == 1)  {
+              var node = nodes[0];
+              var result = {};
+              for (var key in node) {
+                if (key != 'children') {
+                  result[key] = node[key];
+                } else {
+                  if (tree.get(node[key])) {
+                    //console.log(key);
+                    //console.log(node[key]);
+                    //console.log(tree.get(node[key]));
+                    result['size'] = tree.get(node[key]).length;
+                    result[key] = traverse(tree.get(node[key]));
+                  }
+                }
+              }
+              hash.push(result);
+            }
+          }
+          return hash;
+        }
+        var result = {};
+        for (var index = 0 ; index < tree.get(root).length ; index++) {
+          var node = tree.get(root)[index];
+          for (var key in node) {
+            if (key != 'children') {
+              result[key] = node[key];
+            } else {
+              if (tree.get(node[key])) {
+                //console.log(node[key]);
+                //console.log(tree.get(node[key]));
+                result['size'] = tree.get(node[key]).length;
+                result[key] = traverse(tree.get(node[key]));
+              }
+            }
+          }
+        }
+        return result;
+      }
+      function init() {
+        // param id input_file root view_width view_height default_posX default_posY
+        adjust_iframe_height(800);
+        var opt = {
+          "parent": "parent",
+          "children": "tax",
+          "name": "tax_label",
+          "tag_id": "tag_id",
+          "link": "link",
+          "rank": "rank",
+          "cnt": "cnt"
+        };
+        var tips = {
+          "name": "label",
+          "cnt": "cnt",
+          "rank": "rank"
+        };
+	var root = 'Cellular_ortanism';
+        draw('vis','./ortholog_group_members_in_fixed_taxonomy_sunburst/resources/features?cluster_id={{param_cluster_id}}','taxonomy_sunburst',opt,'root',tips,900);
+      }
+    function adjust_iframe_height(height_px) {
+      var height = 0;
+      //var name = parent.document.getElementsByTagName('iframe')[0].id;
+      //console.log(name);
+      if(height_px) {
+        height = height_px;
+      } else {
+        height = document.body.offsetHeight + 500;
+        //height = document.body.offsetHeight - 15;
+      }
+      parent.postMessage(JSON.stringify({height: height, id: name}), "*");
+    }
+
+    -->
+    </script>
+  </head>
+  <body onload="init();">
+    <div id="vis"></div>
+  </body>
+</html>

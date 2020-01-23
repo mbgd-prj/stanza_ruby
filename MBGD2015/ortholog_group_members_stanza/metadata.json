@@ -1,0 +1,29 @@
+{
+  "id": "ortholog_group_members",
+  "label": "Ortholog group members",
+  "definition": "<ul> <li> This stanza is based on the pre-calculated <b>MBGD</b> ortholog clustering result (such as the default ortholog dataset). </li> <li>The members of the specified ortholog group are shown with the <b>organism name</b> and <b>taxa</b>. </li></ul>",
+  "parameter": [
+    {
+      "key": "data-stanza-cluster_id",
+      "example": "2000",
+      "description": "Ortholog group ID",
+      "required": true
+    },
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Ortholog dataset",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "NIBB",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-02-16",
+  "updated": "2016-02-16"
+}

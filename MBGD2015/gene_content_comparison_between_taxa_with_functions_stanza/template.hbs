@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Ortholog Specific Genes</title>
+    <link rel="stylesheet" href="/stanza/assets/stanza.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <style type="text/css">
+     span#tooltip{
+       position: absolute;
+       top: 10px;
+       z-index: 10;
+       visibility: hidden;
+       padding: 10 10px;
+       border: 1px solid #666;
+       border-radius: 3px;
+       background-color: #fff;
+       color: #333;
+       font-size: 11px;
+       opacity: 0.9;
+    }
+    </style>
+ 
+    <script type="text/javascript">
+    var h = 250;
+    var w = 800;
+    var catarray = ['Amino acid biosynthesis', 'Purines, pyrimidines, nucleosides, and nucleotides', 'Fatty acid, phospholipid and sterol metabolism', 'Biosynthesis of cofactors, prosthetic groups, and carriers', 'Central intermediary metabolism', 'Energy metabolism', 'Transport and binding proteins', 'DNA replication, restriction, modification, recombination, and repair', 'Transcription', 'Translation', 'Regulatory functions', 'Cell envelope', 'Cellular processes', 'Other categories', 'Hypothetical'];
+    var svg = d3.select("#svg")
+          .append("svg")
+	  .attr("id", 'bar')
+          .attr("width", w)
+          .attr("height", h);
+    var frame_height = 290;
+    function adjust_iframe_height(height_px) {
+      var height = 0;
+      //var name = parent.document.getElementsByTagName('iframe')[0].id;
+      //console.log(name);
+      if(height_px) {
+        height = height_px;
+      } else {
+        //height = document.body.offsetHeight + 500;
+        height = document.body.offsetHeight - 15;
+      }
+      parent.postMessage(JSON.stringify({height: height, id: name}), "*");
+    }
+
+    function func_plot(tracks,count) {
+      var total = 0;
+      for (var i = 0; i < tracks.length; i++) {
+         total += Number(tracks[i]['ccnt']);
+      }
+      var start = 20;
+      var tooltip = d3.select("body").select("#tooltip")
+      var a = 580 / total;
+      var noww = 0;
+      tracks[0]['noww'] = 0;
+      for (var i = 1; i < tracks.length; i++) {
+        noww = noww + (Number(tracks[i-1]['ccnt'])) * a;
+        tracks[i]['noww'] = noww;
+      }
+console.log(a,tracks);
+
+      var ytrans = start + (count * 50);
+      var gid = "fcg"+count;
+
+      var g = d3.select("#bar")
+        .append('g')
+        .attr("class", 'func_bar')
+        .attr("id", function(){return gid})
+        .attr("transform","translate(" + 40 + "," + ytrans + ")");
+
+    //console.log(svg);
+    // var svg = d3.select("#funcbar")
+    //     .append("svg")
+    //    .attr("id", "fc");
+
+    var classname = 'func'+count;
+    //var gid2 = '#'+gid;
+    //console.log(gid2);
+    var barchart = g.selectAll('.'+classname)
+        .data(tracks)
+        .enter()
+        .append('rect')
+        .attr("class", function(){return classname})
+        //.attr("transform","translate(" + xtrans + "," + 20 + ")")
+        .attr({
+                y: 0,
+                x: function(d, i){
+                  return d.noww; },
+                width: function(d){ return d.ccnt * a },
+                height: 30,
+        })
+        .attr("fill", function(d) {
+            return d.color;
+          })
+        .on("mouseover", function(d){var n = Number(d.func_cat)-1; return tooltip.style("visibility", "visible").text(catarray[n]);})
+        .on("mousemove", function(d){return tooltip.style("top", (event.pageY-20)+"px").style("left",(event.pageX+10)+"px");})
+        .on("mouseout", function(d){return tooltip.style("visibility", "hidden");});
+      var title = (count == 1) ? 'All genes' : 'Specific genes';
+      //g.select('#'+gid)
+        g.append("text")
+        .attr('x', 0)
+        .attr('y', -3)
+        .attr("font-size", "14px")
+        .attr("font-family", "Arial Narrow")
+        .text(title);
+       g.append("text")
+        .attr('x', 608)
+        .attr('y', 26)
+        .attr("font-size", "14px")
+        .attr("font-family", "Arial Narrow")
+        .attr("text-anchor", "end")
+        .text(total);
+}
+
+    function init() {
+     var h = 200;
+      var w = 800;
+      var svg = d3.select("#svg")
+            .append("svg")
+            .attr("id", 'bar')
+            .attr("width", w)
+            .attr("height", h);
+	adjust_iframe_height(600);
+        $.ajax({
+           url:'/stanza/gene_content_comparison_between_taxa_with_functions/resources/all?tax_id={{param_tax_id}}&dataset={{param_dataset}}',
+           success:function(_data) {
+	    console.log(_data["all"])
+	    var allarray = Array();
+	    var speciarray = Array();
+	    for (var i = 0; i < _data["all"].length; i++) {
+		if (_data["all"][i]["class"] == "all") {
+		  allarray.push(_data["all"][i]);
+	        } else {
+		  speciarray.push(_data["all"][i]);
+		}
+	    }
+	    console.log(allarray,speciarray);
+	    func_plot(allarray,1);
+	    func_plot(speciarray,2);
+           }
+	});
+}
+    </script>
+
+   <!-- {{adjust_iframe_height_script}}-->
+  </head>
+
+  <body onload="init()">
+  <span id="tooltip"></span>
+  <div id="svg"></div>
+
+  </body>
+</html>

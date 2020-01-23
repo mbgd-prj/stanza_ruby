@@ -1,0 +1,41 @@
+{
+  "id": "gene_content_comparison_between_taxa",
+  "label": "Genome content comparison between taxa",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Ortholog dataset",
+      "required": true
+    },
+    {
+      "key": "data-stanza-tax_id",
+      "example": "543,186817",
+      "description": "Two taxonomy IDs separated by comma",
+      "required": true
+    },
+    {
+      "key": "data-stanza-ratio1",
+      "example": "0.8",
+      "description": "Lower bound of existence ratio in taxonomy ID 1",
+      "required": true
+    },
+    {
+      "key": "data-stanza-ratio2",
+      "example": "0.2",
+      "description": "Upper bound of existence ratio in taxonomy ID 2",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "nibb",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-08-30",
+  "updated": "2016-09-07"
+}

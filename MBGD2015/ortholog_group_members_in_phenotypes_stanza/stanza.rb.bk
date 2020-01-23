@@ -1,0 +1,5 @@
+class OrthologGroupMembersInPhenotypesStanza < TogoStanza::Stanza::Base
+  property :greeting do
+    'hello, world!'
+  end
+end

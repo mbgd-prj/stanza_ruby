@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'togostanza'
+gem 'unicorn'
+gem 'ortholog_group_descriptions_stanza', path: './ortholog_group_descriptions_stanza'
+gem 'ortholog_group_members_in_environments_stanza', path: './ortholog_group_members_in_environments_stanza'
+gem 'ortholog_group_members_in_fixed_taxonomy_sunburst_stanza', path: './ortholog_group_members_in_fixed_taxonomy_sunburst_stanza'
+gem 'ortholog_group_members_in_fixed_taxonomy_tree_stanza', path: './ortholog_group_members_in_fixed_taxonomy_tree_stanza'
+gem 'ortholog_group_members_in_phenotypes_stanza', path: './ortholog_group_members_in_phenotypes_stanza'
+gem 'ortholog_group_members_in_tree_stanza', path: './ortholog_group_members_in_tree_stanza'
+gem 'ortholog_group_members_stanza', path: './ortholog_group_members_stanza'

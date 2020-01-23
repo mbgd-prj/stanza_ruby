@@ -1,0 +1,29 @@
+{
+  "id": "ortholog_group_members",
+  "label": "Ortholog group members",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-cluster_id",
+      "example": "1930",
+      "description": "Ortholog group ID",
+      "required": true
+    },
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Ortholog dataset",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "NIBB",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-02-16",
+  "updated": "2016-02-16"
+}

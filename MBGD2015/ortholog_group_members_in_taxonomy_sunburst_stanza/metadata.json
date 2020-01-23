@@ -1,0 +1,23 @@
+{
+  "id": "ortholog_group_members_in_taxonomy_sunburst",
+  "label": "",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "",
+      "example": "",
+      "description": "",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "author name",
+  "address": "name@example.org",
+  "contributor": [],
+  "created": "2016-02-16",
+  "updated": "2016-02-16"
+}

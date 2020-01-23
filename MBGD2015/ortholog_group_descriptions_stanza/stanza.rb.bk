@@ -1,0 +1,66 @@
+class OrthologTaxonProfileStanza < TogoStanza::Stanza::Base
+
+  property :title do |gene_id|
+    "Ortholog profile of #{gene_id}"
+  end
+
+  property :param_tax_id do |tax_id|
+    tax_id
+  end
+
+  property :param_gene_id do |gene_id|
+    gene_id
+  end
+
+  property :protid do |tax_id, gene_id|
+    protein_attributes = query(:uniprot, <<-SPARQL.strip_heredoc)
+      PREFIX up: <http://purl.uniprot.org/core/>
+      PREFIX taxonomy: <http://purl.uniprot.org/taxonomy/>
+
+      SELECT DISTINCT ?upid
+      WHERE {
+        ?upid up:organism  taxonomy:#{tax_id} ;
+                 rdfs:seeAlso <#{uniprot_url_from_togogenome(gene_id)}> .
+      }
+    SPARQL
+    @@uniprot_uri = protein_attributes.first[:upid]
+   end
+
+
+  resource :taxonomy_sunburst do
+  results = query("http://sparql.nibb.ac.jp/sparql", <<-SPARQL.strip_heredoc)
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mbgd: <http://mbgd.genome.ad.jp/owl/mbgd.owl#>
+PREFIX orth: <http://mbgd.genome.ad.jp/owl/ortholog.owl#>
+PREFIX up: <http://purl.uniprot.org/core/>
+
+SELECT ?tax COUNT(?tax) AS ?cnt ?tax_label ?parent ?rank ?link
+WHERE {
+    ?group a mbgd:Cluster, mbgd:Default ;
+           orth:member/mbgd:gene/mbgd:uniprot <#{@@uniprot_uri}> ;
+           orth:member ?member.
+    ?member mbgd:organism/up:organism ?org_tax .
+    ?org_tax rdfs:subClassOf* ?tax .
+    ?tax up:scientificName ?tax_label .
+    OPTIONAL { ?tax rdfs:subClassOf ?parent }.
+    OPTIONAL { ?parent up:rank ?rank}.
+}
+
+   SPARQL
+   root = {:tax => "http://purl.uniprot.org/taxonomy/1", :tax_label => "Thing", :definition => "root", :parent => "root", :link => "http://mbgd.genome.ad.jp"}
+   results.push(root)
+    results.map {|hash|
+      hash[:rank] = (hash[:rank]?hash[:rank].gsub('http://purl.uniprot.org/taxonomy/', ''):'')
+      hash.merge(
+        :tag_id => hash[:tax].split('/').last.split('#').last
+        #:link => "http://biointegra.jp/OpenID/?tax=" + hash[:tax].split('/').last.split('#').last
+      )
+    }
+
+
+end
+
+end
+
+

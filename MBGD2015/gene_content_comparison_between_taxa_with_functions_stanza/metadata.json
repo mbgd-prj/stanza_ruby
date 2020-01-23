@@ -1,0 +1,29 @@
+{
+  "id": "gene_content_comparison_between_taxa_with_functions",
+  "label": "",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-dataset",
+      "example": "extended",
+      "description": "Ortholog Dataset",
+      "required": true
+    },
+    {
+      "key": "data-stanza-tax_id",
+      "example": "386585,511145",
+      "description": "Two taxonomy IDs separated by comma",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "author name",
+  "address": "name@example.org",
+  "contributor": [],
+  "created": "2016-11-21",
+  "updated": "2016-11-21"
+}

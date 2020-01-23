@@ -1,0 +1,29 @@
+{
+  "id": "ortholog_group_members_in_tree",
+  "label": "Phylogenetic tree of orthologs",
+  "definition": "<ul> <li> This stanza is based on the pre-calculated <b>MBGD</b> ortholog clustering result (such as the default ortholog dataset). </li> <li><b>Phylogenetic tree</b> of the members of the specified ortholog group is calculated using Clustal Omega and FastTree and shown with support values. </li></ul>",
+  "parameter": [
+    {
+      "key": "data-stanza-cluster_id",
+      "example": "2841",
+      "description": "Ortholog group ID",
+      "required": true
+    },
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Ortholog dataset",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "nibb",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-08-30",
+  "updated": "2016-08-30"
+}

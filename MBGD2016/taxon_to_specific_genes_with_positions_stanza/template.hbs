@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Ortholog Specific Genes</title>
+    <link rel="stylesheet" href="/stanza/assets/stanza.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/stanza/assets/opencampus/jquery.tablesorter.min.js"></script>
+    <link rel="stylesheet" href="/stanza/assets/opencampus/member.css">
+
+    <script type="text/javascript">
+    var frame_height = 290;
+    function init() {
+        adjust_iframe_height();
+        jQuery(function($) {
+          $('#main_table').tablesorter();
+        });
+    }
+    function adjust_iframe_height(height_px) {
+      var height = 0;
+      //var name = parent.document.getElementsByTagName('iframe')[0].id;
+      //console.log(name);
+      if(height_px) {
+        height = height_px;
+      } else {
+        //height = document.body.offsetHeight + 500;
+        height = document.body.offsetHeight - 15;
+      }
+      parent.postMessage(JSON.stringify({height: height, id: name}), "*");
+    }
+    </script>
+
+   <!-- {{adjust_iframe_height_script}}-->
+  </head>
+
+  <body onload="init()">
+     <table id="main_table" border="1">
+        <thead>
+            <tr>
+              <th>Gene</th>
+              <th>Position</th>
+	      <th>MBGD func</th>
+              <th>Function</th>
+              <th>GeneDescription</th>
+	    </tr>
+        </thead><tbody>
+        {{#each features}}
+             <tr>
+              <td>
+	      {{ref_gene_id}}
+              </td>
+              <td>
+              {{begin}}
+              </td>
+              <td>
+                 {{func_cat}}
+              </td>
+              <td bgcolor="{{color}}">
+                 {{func_label}}
+              </td>
+              <td>
+                 {{description}}
+              </td>
+            </tr>
+         {{/each}}
+        </tbody>
+      </table>
+  </body>
+</html>

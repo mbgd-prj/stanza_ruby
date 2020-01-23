@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Ortholog Specific Genes</title>
+    <!-- <link rel="stylesheet" href="/stanza/assets/stanza.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+    <!-- <script type="text/javascript"> -->
+    <!-- var frame_height = 290; -->
+    <!-- function init() { -->
+    <!--     adjust_iframe_height(); -->
+    <!-- } -->
+    <!-- function adjust_iframe_height(height_px) { -->
+    <!--   var height = 0; -->
+    <!--   //var name = parent.document.getElementsByTagName('iframe')[0].id; -->
+    <!--   //console.log(name); -->
+    <!--   if(height_px) { -->
+    <!--     height = height_px; -->
+    <!--   } else { -->
+    <!--     //height = document.body.offsetHeight + 500; -->
+    <!--     height = document.body.offsetHeight - 15; -->
+    <!--   } -->
+    <!--   parent.postMessage(JSON.stringify({height: height, id: name}), "*"); -->
+    <!-- } -->
+    <!-- </script> -->
+
+    <style>
+      body {
+        font-family:Arial;
+      }
+      #gene_table {
+        background-color: #FFF;
+        width: 100%;
+      }
+      #gene_table th {
+        border: 1px #E3E3E3 solid;
+        border-width: 0 0 1px 1px;          
+        padding: 1px;
+        border-spacing: 1px;
+      }
+      #gene_table td {
+        border: 1px #E3E3E3 solid;
+        border-width: 0 0 1px 1px;          
+        padding: 1px;
+      }
+    </style>
+
+   <!-- {{adjust_iframe_height_script}}-->
+  </head>
+
+  <!-- <body onload="init()"> -->
+  <body>
+    <!-- <b>Specific genes</b> -->
+    <font size="2">
+
+     <!-- <table class="table"> -->
+     <table id="gene_table" border="1">
+   <!--     <caption height=>{{title}}</caption> -->
+        <tbody>
+            <!-- <tr bgcolor="#e3e3e3"> -->
+            <tr bgcolor="#eee8aa">
+	      <th class="span1" align="left"><font size="2">Gene symbol</font></th>
+              <th class="span3" nowrap align="left"><font size="2">Description</font></th>
+              <th class="span1" align="left"><font size="2">Ortholog group</font></th>
+              <th class="span1" align="left"><font size="2">Organisms distribution</font></th>
+              <th class="span1" nowrap align="left"><font size="2">This Taxon</font></th>
+              <th class="span1" nowrap align="left"><font size="2">Others</font></th>
+              <th class="span1" align="right"><font size="2">Ortholog members</font></th>
+	    </tr>
+            <!-- <tr> -->
+            <!--   <th class="span1" nowrap rowspan="2">Ortholog ID</th> -->
+	    <!--   <th class="span1" nowrap rowspan="2">Name</th> -->
+            <!--   <th class="span3" nowrap rowspan="2">Description</th> -->
+            <!--   <th class="span1" nowrap rowspan="2">Ortholog members</th> -->
+            <!--   <th nowrap colspan="2">Organisms</th> -->
+	    <!-- </tr> -->
+	    <!-- <tr> -->
+            <!--   <th class="span1" nowrap>This Taxon</th> -->
+            <!--   <th class="span1" nowrap>Others</th> -->
+	    <!-- </tr> -->
+        {{#each features}}
+             <tr border="1">
+              <td class="span1" nowrap align="left">
+                <font size="2">{{label}}</font>
+              </td>
+              <td class="span3" align="left">
+                 {{description}}
+              </td>
+              <td class="span1" align="left">
+		<font size="2"><a target="_blank" href="http://mbgd.genome.ad.jp/htbin/hcluster?prog=hcluster&clustid=O{{group}}&tabid=default">{{group}}</a></font>
+              </td>
+	      <td>
+		<a target="_blank" href="http://mbgd.genome.ad.jp/stanza/summary/ortholog.php?cluster_id={{group}}">view</a>
+	      </td>
+              <td class="span1" nowrap align="left">
+                <font size="2">{{ratio}} ({{count1}}/{{count_organism_all}})</font>
+              </td>
+              <td class="span1" nowrap align="left">
+                <font size="2">{{ratio2}} ({{count2}}/{{count_organism_all2}})</font>
+              </td>
+              <td class="span1" align="right">
+                <font size="2">{{member_count}}</font>
+              </td>
+            </tr>
+         {{/each}}
+
+        </tbody>
+      </table>
+
+     </font>
+  </body>
+</html>

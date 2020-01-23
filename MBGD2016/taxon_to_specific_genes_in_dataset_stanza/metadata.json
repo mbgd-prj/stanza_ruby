@@ -1,0 +1,30 @@
+{
+  "id": "taxon_to_specific_genes_in_dataset",
+  "label": "Taxon-specific genes in dataset",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-tax_id",
+      "example": "620",
+      "description": "Taxonomy ID",
+      "required": true
+    },
+    {
+      "key": "data-stanza-ortholog_dataset",
+      "example": "s1",
+      "description": "Dataset",
+      "required": true
+    }
+
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-02-12",
+  "updated": "2016-02-16"
+}

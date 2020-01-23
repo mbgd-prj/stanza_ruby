@@ -1,0 +1,29 @@
+{
+  "id": "ortholog_group_members_in_tree",
+  "label": "Phylogenetic tree of orthologs",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-cluster_id",
+      "example": "2841",
+      "description": "Ortholog group ID",
+      "required": true
+    },
+    {
+      "key": "data-stanza-dataset",
+      "example": "default",
+      "description": "Ortholog dataset",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "nibb",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-08-30",
+  "updated": "2016-08-30"
+}

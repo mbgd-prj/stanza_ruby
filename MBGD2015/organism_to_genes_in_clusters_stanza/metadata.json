@@ -1,0 +1,23 @@
+{
+  "id": "organism_to_genes_in_clusters",
+  "label": "Genes and orthologs",
+  "definition": "<ul><li>This stanza is based on the pre-calculated <b>MBGD</b> ortholog clustering result (using the default organism set).</li> <li>Each <b>gene of the specified organism</b> is clustered into specific ortholog groups.</li> <li>Each ortholog group is assigned with a functional category and a representative <b>description of gene functions</b>.</li> <li>The ortholog ID is <b>colored</b> according to the assigned functional category.</li></ul>",
+  "parameter": [
+    {
+      "key": "data-stanza-org_code",
+      "example": "syn",
+      "description": "Organism code",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "Hiroyo NISHIDE",
+  "address": "hiroyo@nibb.ac.jp",
+  "contributor": [],
+  "created": "2016-07-27",
+  "updated": "2016-07-27"
+}

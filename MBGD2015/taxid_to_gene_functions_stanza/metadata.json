@@ -1,0 +1,23 @@
+{
+  "id": "taxid_to_gene_functions",
+  "label": "Gene functions",
+  "definition": "",
+  "parameter": [
+    {
+      "key": "data-stanza-tax_id",
+      "example": "1148",
+      "description": "Taxonomy ID",
+      "required": true
+    }
+  ],
+  "type": "Stanza",
+  "context": "",
+  "display": "",
+  "provider": "provider of this stanza",
+  "license": "",
+  "author": "author name",
+  "address": "name@example.org",
+  "contributor": [],
+  "created": "2016-09-08",
+  "updated": "2016-09-08"
+}
