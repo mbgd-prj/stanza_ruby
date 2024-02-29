@@ -1,95 +1,95 @@
 PATH
-  remote: ./gene_content_comparison_between_taxa_stanza
+  remote: gene_content_comparison_between_taxa_stanza
   specs:
     gene_content_comparison_between_taxa_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./gene_content_comparison_between_taxa_with_positions_stanza
+  remote: gene_content_comparison_between_taxa_with_positions_stanza
   specs:
     gene_content_comparison_between_taxa_with_positions_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./organism_to_gene_functions_stanza
+  remote: organism_to_gene_functions_stanza
   specs:
     organism_to_gene_functions_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./organism_to_genes_in_clusters_stanza
+  remote: organism_to_genes_in_clusters_stanza
   specs:
     organism_to_genes_in_clusters_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./ortholog_group_descriptions_stanza
+  remote: ortholog_group_descriptions_stanza
   specs:
     ortholog_group_descriptions_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./ortholog_group_members_in_environments_stanza
+  remote: ortholog_group_members_in_environments_stanza
   specs:
     ortholog_group_members_in_environments_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./ortholog_group_members_in_fixed_taxonomy_sunburst_stanza
+  remote: ortholog_group_members_in_fixed_taxonomy_sunburst_stanza
   specs:
     ortholog_group_members_in_fixed_taxonomy_sunburst_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./ortholog_group_members_in_fixed_taxonomy_tree_stanza
+  remote: ortholog_group_members_in_fixed_taxonomy_tree_stanza
   specs:
     ortholog_group_members_in_fixed_taxonomy_tree_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./ortholog_group_members_in_phenotypes_stanza
+  remote: ortholog_group_members_in_phenotypes_stanza
   specs:
     ortholog_group_members_in_phenotypes_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./ortholog_group_members_in_tree_stanza
+  remote: ortholog_group_members_in_tree_stanza
   specs:
     ortholog_group_members_in_tree_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./ortholog_group_members_stanza
+  remote: ortholog_group_members_stanza
   specs:
     ortholog_group_members_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./taxid_to_gene_functions_stanza
+  remote: taxid_to_gene_functions_stanza
   specs:
     taxid_to_gene_functions_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./taxid_to_genes_in_clusters_stanza
+  remote: taxid_to_genes_in_clusters_stanza
   specs:
     taxid_to_genes_in_clusters_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./taxon_to_specific_genes_in_dataset_stanza
+  remote: taxon_to_specific_genes_in_dataset_stanza
   specs:
     taxon_to_specific_genes_in_dataset_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./taxon_to_specific_genes_stanza
+  remote: taxon_to_specific_genes_stanza
   specs:
     taxon_to_specific_genes_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./taxon_to_specific_genes_with_positions_stanza
+  remote: taxon_to_specific_genes_with_positions_stanza
   specs:
     taxon_to_specific_genes_with_positions_stanza (0.0.1)
       togostanza
@@ -122,7 +122,7 @@ GEM
     multi_json (1.12.1)
     net-http-persistent (2.9.4)
     parallel (1.9.0)
-    rack (1.6.4)
+    rack (1.6.13)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
